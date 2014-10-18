@@ -23,7 +23,7 @@ quotes = File.open('quotes.json')
 json_quotes = quotes.read
 parsed_quotes = JSON.parse(json_quotes)
 
-random_quote = "\"" + parsed_quotes.sample +  "\""
+random_quote = parsed_quotes.sample.gsub(/\n/, '')
 
 figures = ["Darth Vader", "Carl Sagan", "Richard Dawkins", "Barack Obama"]
 
@@ -35,17 +35,11 @@ image.combine_options do |c|
   c.gravity 'south'
   c.pointsize '30'
   c.fill 'black'
-  c.annotate '0,0', "#{caption} #{figure}"
+  c.annotate '0,0', "#{caption} \n#{figure}"
   c.fill 'white'
-  c.annotate '0,0,1,1', "#{caption} #{figure}"
+  c.annotate '0,0,1,1', "#{caption} \n#{figure}"
   c.gravity 'south'
   c.pointsize '40'
-
-  # c.fill 'black'
-  # c.annotate '0,10', "#{figure}"
-  # c.fill 'white'
-  # c.annotate '0,0,3,3', "#{figure}"
-
 end
 
 image.write("from_internets.jpg")

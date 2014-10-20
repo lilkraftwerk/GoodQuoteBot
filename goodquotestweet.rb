@@ -2,7 +2,7 @@ require 'twitter'
 require 'mini_magick'
 require 'tempfile'
 require 'open-uri'
-require 'HTTParty'
+require 'httparty'
 
 
 # rails' word wrap helper

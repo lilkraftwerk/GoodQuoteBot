@@ -1,4 +1,3 @@
-require './twitter_keys'
 require 'twitter'
 require 'mini_magick'
 require 'tempfile'
@@ -15,37 +14,38 @@ end
 
 
 def return_random_author
-  authors = open(SITE_URL + '/authors.json')
+  authors = open(ENV["SITE_URL"] + '/authors.json')
   json_authors = authors.read
   p JSON.parse(json_authors).length
   JSON.parse(json_authors).sample
 end
 
 def return_random_quote
-  quotes = open(SITE_URL + '/quotes.json')
+  quotes = open(ENV["SITE_URL"] + '/quotes.json')
   json_quotes = quotes.read
   p JSON.parse(json_quotes).length
   JSON.parse(json_quotes).sample.gsub(/\n/, '')
 end
 
 def return_random_image_location
-  possible_images = [SITE_URL + "/img/*.jpg"]
+  possible_images = [ENV["SITE_URL"] + "/img/*.jpg"]
   possible_images.sample
   "http://lucasquinn.com/quotebot/img/cicero.jpg"
 end
 
 def return_random_image
-  possible_images = HTTParty.get(SITE_URL + "/img")
+  possible_images = HTTParty.get(ENV["SITE_URL"] + "/img")
   scanned_images = possible_images.scan(/href=\"(.+\.jpg)\"/)
-  SITE_URL + "/img/" + scanned_images.sample.first
+  ENV["SITE_URL"] + "/img/" + scanned_images.sample.first
 end
 
 def configure_twitter_client
   client = Twitter::REST::Client.new do |config|
-    config.consumer_key = 'accrpZT4WCq4jzwqkanqqJsVj'
-    config.consumer_secret = 'WKRVFUuO7BilWk1zyzDAZLupLBSCYvzvSA9tSArRu09d16e2bK'
-    config.access_token = '2836011196-dwbM8kGVuC3pez4ML26M6EiT6JJugxS2j7FWrYn'
-    config.access_token_secret = '9jHjW1ncFLhjKwFOpBLr0tGUDF8cXU68JAhrQRz5i4988'
+
+    config.consumer_key = ENV["TWITTER_KEY"]
+    config.consumer_secret = ENV["TWITTER_SECRET"]
+    config.access_token = ENV["ACCESS_TOKEN"]
+    config.access_token_secret = ENV["ACCESS_SECRET"]
   end
 end
 
@@ -57,7 +57,7 @@ def add_hashtags
 end
 
 def get_font
-  SITE_URL + "/fonts/timesbold.ttf"
+  ENV["SITE_URL"] + "/fonts/timesbold.ttf"
 end
 
 def tweet(client)

@@ -1,3 +1,5 @@
+# encoding UTF-8
+
 require 'httparty'
 require 'json'
 
@@ -5,9 +7,11 @@ quote_url = 'http://www.quotedb.com/quote/quote.php?action=random_quote&=&=&'
 
 quote = HTTParty.get(quote_url)
 
-authors = []
-quotes = []
+quotes_file = File.open('quotes.json').read
+quotes = JSON.parse(quotes_file)
 
+authors_file = File.open('authors.json').read
+authors = JSON.parse(authors_file)
 
 def get_quote
   quote_url = 'http://www.quotedb.com/quote/quote.php?action=random_quote&=&=&'
@@ -17,7 +21,7 @@ def get_quote
   [quote, author]
 end
 
-2000.times do |x|
+500.times do |x|
   this_quote = get_quote
   quotes << this_quote[0] if this_quote[0]
   authors << this_quote[1] if this_quote[1]
@@ -26,22 +30,15 @@ end
   end
 end
 
-p quotes
-p authors
 
 json_quotes_array = quotes.uniq.to_json
 json_authors_array = authors.uniq.to_json
 
-File.write('./newquotes.json', json_quotes_array)
+puts "quotes length"
+p json_quotes_array.length
+puts "authors length"
+p json_authors_array.length
+
+File.write('./quotes.json', json_quotes_array)
 File.write('./authors.json', json_authors_array)
 
-
-
-# quote_match = /^.+\('(.+)<br>/.match(quote.parsed_response)
-# author_match = /.+>(.+)<\/a/.match(quote.parsed_response)
-
-# quote = quote_match[1]
-# author = author_match[1]
-
-# puts quote
-# puts author

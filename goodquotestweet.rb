@@ -60,7 +60,7 @@ def get_font
   ENV["SITE_URL"] + "/fonts/timesbold.ttf"
 end
 
-def tweet(client)
+def do_tweet(client)
   image = MiniMagick::Image.open("#{return_random_image}")
 
   author = return_random_author
@@ -81,14 +81,10 @@ def tweet(client)
 
   File.open("./tmp/tweet_pic.jpg") do |f|
       client.update_with_media("#{add_hashtags} quote from #{author}", f)
-    end
+  end
 end
 
 def make_tweet
   client = configure_twitter_client
-  tweet(client)
+  do_tweet(client)
 end
-
-make_tweet
-
-# return_random_image

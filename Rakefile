@@ -1,6 +1,6 @@
 $LOAD_PATH << "."
 
-require 'goodquotestweet'
+require 'emojitweet'
 
 task :tweet do
   make_tweet

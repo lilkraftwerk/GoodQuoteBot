@@ -1,6 +1,6 @@
 $LOAD_PATH << "."
 
-require 'emojitweet'
+require 'dynamic'
 
 task :tweet do
   make_tweet

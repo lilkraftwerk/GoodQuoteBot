@@ -203,9 +203,11 @@ end
   end
 
   def tweet_then_delay(scope)
+    delay = 300
     @client.update(scope)
-    1..120.times do |x|
-      puts "#{x} / 120 seconds till next tweet ;)"
+    puts "Waiting "
+    1..delay.times do |x|
+      puts "#{x} / #{delay} seconds till next tweet ;)"
       sleep 1
     end
   end
